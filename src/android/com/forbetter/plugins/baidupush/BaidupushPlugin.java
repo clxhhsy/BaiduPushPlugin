@@ -30,12 +30,12 @@ public class BaidupushPlugin extends CordovaPlugin {
     private ExecutorService threadPool = cordova.getThreadPool();
 
     /* JS回调上下文接口 */
-    public static CallbackContext StartWorkCallbackContext = null;
-    public static CallbackContext StopWorkCallbackContext = null;
-    public static CallbackContext ResumeWorkCallbackContext = null;
-    public static CallbackContext NotificationClickCallbackContext = null;
-    public static CallbackContext NotificationArriveCallbackContext = null;
-    public static CallbackContext MessageArriveCallbackContext = null;
+    static CallbackContext StartWorkCallbackContext = null;
+    static CallbackContext StopWorkCallbackContext = null;
+    static CallbackContext ResumeWorkCallbackContext = null;
+    static CallbackContext NotificationClickCallbackContext = null;
+    static CallbackContext NotificationArriveCallbackContext = null;
+    static CallbackContext MessageArriveCallbackContext = null;
 
     private final static List<String> methodList = Arrays.asList(
             "startWork",
@@ -57,16 +57,23 @@ public class BaidupushPlugin extends CordovaPlugin {
         return handlerExecute(action, args, callbackContext);
     }
 
-    private boolean handlerExecute(String action, JSONArray args, CallbackContext callbackContext) {
+    private boolean handlerExecute(final String action, final JSONArray args, final CallbackContext callbackContext) {
         if (!methodList.contains(action))
             return false;
-        threadPool.execute(() -> {
-            try {
-                Method method = BaidupushPlugin.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
-                method.invoke(BaidupushPlugin.this, args, callbackContext);
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Method method = BaidupushPlugin.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
+                    method.invoke(BaidupushPlugin.this, args, callbackContext);
 
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                LOG.e(LOG_TAG, e.toString());
+                } catch (NoSuchMethodException e) {
+                    LOG.e(LOG_TAG, e.toString());
+                } catch (IllegalAccessException e) {
+                    LOG.e(LOG_TAG, e.toString());
+                } catch (InvocationTargetException e) {
+                    LOG.e(LOG_TAG, e.toString());
+                }
             }
         });
         return true;
