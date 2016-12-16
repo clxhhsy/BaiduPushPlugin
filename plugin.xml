@@ -18,7 +18,7 @@
                      target-dir="src/com/forbetter/plugins/baidupush"></source-file>
         <source-file src="src/android/com/forbetter/plugins/baidupush/BaidupushMessageReceiver.java"
                      target-dir="src/com/forbetter/plugins/baidupush"></source-file>
-        <resource-file src="libs/pushservice-5.2.0.12.jar" target="libs/pushservice-5.5.0.50.jar"></resource-file>
+        <resource-file src="libs/pushservice-5.5.0.50.jar" target="libs/pushservice-5.5.0.50.jar"></resource-file>
         <resource-file src="libs/armeabi/libbdpush_V2_7.so" target="libs/armeabi/libbdpush_V2_7.so"></resource-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
