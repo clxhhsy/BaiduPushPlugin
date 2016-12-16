@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 百度推送插件类
@@ -27,7 +28,7 @@ public class BaidupushPlugin extends CordovaPlugin {
 
     private static final String LOG_TAG = "BaiduPushPlugin";
 
-    private ExecutorService threadPool = cordova.getThreadPool();
+    private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
     /* JS回调上下文接口 */
     static CallbackContext StartWorkCallbackContext = null;
