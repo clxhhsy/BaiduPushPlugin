@@ -18,7 +18,7 @@
                      target-dir="src/com/forbetter/plugins/baidupush"></source-file>
         <source-file src="src/android/com/forbetter/plugins/baidupush/BaidupushMessageReceiver.java"
                      target-dir="src/com/forbetter/plugins/baidupush"></source-file>
-        <resource-file src="libs/pushservice-5.2.0.12.jar" target="libs/pushservice-5.2.0.12.jar"></resource-file>
+        <resource-file src="libs/pushservice-5.2.0.12.jar" target="libs/pushservice-5.5.0.50.jar"></resource-file>
         <resource-file src="libs/armeabi/libbdpush_V2_7.so" target="libs/armeabi/libbdpush_V2_7.so"></resource-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
@@ -77,6 +77,12 @@
             <service android:name="com.baidu.android.pushservice.CommandService"
                      android:exported="true"/>
 
+            <provider
+                    android:name="com.baidu.android.pushservice.PushInfoProvider"
+                    android:authorities="com.forbetter.plugins.baidupush.bdpush"
+                    android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.yamutech.test"
+                    android:protectionLevel = "signature"
+                    android:exported="true" />
             <!-- push结束 -->
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -95,7 +101,12 @@
             <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
             <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
             <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
-
+            <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
+            <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.yamutech.test" />
+            <permission
+                    android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.yamutech.test"
+                    android:protectionLevel="normal">
+            </permission>
         </config-file>
     </platform>
     <platform name="ios">

@@ -82,6 +82,7 @@ public class BaidupushPlugin extends CordovaPlugin {
 
     void startWork(JSONArray params, CallbackContext callbackContext) {
         try {
+            LOG.d(LOG_TAG,"baidupush startWork----------------");
             StartWorkCallbackContext = callbackContext;
             String apiKey = params.getString(0);
             PushManager.startWork(cordova.getActivity().getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, apiKey);
@@ -91,26 +92,31 @@ public class BaidupushPlugin extends CordovaPlugin {
     }
 
     void stopWork(JSONArray params, CallbackContext callbackContext) {
+        LOG.d(LOG_TAG,"baidupush stopWork----------------");
         StopWorkCallbackContext = callbackContext;
         PushManager.stopWork(cordova.getActivity().getApplicationContext());
     }
 
     void resumeWork(JSONArray params, CallbackContext callbackContext) {
+        LOG.d(LOG_TAG,"baidupush resumeWork----------------");
         ResumeWorkCallbackContext = callbackContext;
         PushManager.resumeWork(cordova.getActivity().getApplicationContext());
     }
 
     void listenNotificationClicked(JSONArray params, CallbackContext callbackContext) {
+        LOG.d(LOG_TAG,"baidupush listenNotificationClicked----------------");
         NotificationClickCallbackContext = callbackContext;
         holdCallback(callbackContext);
     }
 
     void listenMessage(JSONArray params, CallbackContext callbackContext) {
+        LOG.d(LOG_TAG,"baidupush listenMessage----------------");
         MessageArriveCallbackContext = callbackContext;
         holdCallback(callbackContext);
     }
 
     void listenNotificationArrived(JSONArray params, CallbackContext callbackContext) {
+        LOG.d(LOG_TAG,"baidupush listenNotificationArrived----------------");
         NotificationArriveCallbackContext = callbackContext;
         holdCallback(callbackContext);
     }
