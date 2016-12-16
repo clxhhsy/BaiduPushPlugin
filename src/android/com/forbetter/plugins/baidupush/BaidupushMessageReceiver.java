@@ -178,7 +178,7 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onMessage(Context context, String message, String customContentString) {
-        LOG.d(LOG_TAG, "onBind [message=" + message + ",customContentString=" + customContentString + "]");
+        LOG.d(LOG_TAG, "onMessage [message=" + message + ",customContentString=" + customContentString + "]");
         try {
             JSONObject data;
             if (customContentString != null && !"".equals(customContentString.trim())) {
@@ -206,7 +206,7 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onNotificationClicked(Context context, String title, String description, String customContentString) {
-        LOG.d(LOG_TAG, "onBind [title=" + title + ",description=" + description +
+        LOG.d(LOG_TAG, "onNotificationClicked [title=" + title + ",description=" + description +
                 ",customContentString=" + customContentString + "]");
         try {
             JSONObject data;
@@ -243,7 +243,7 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onNotificationArrived(Context context, String title, String description, String customContentString) {
-        LOG.d(LOG_TAG, "onBind [title=" + title + ",description=" + description +
+        LOG.d(LOG_TAG, "onNotificationArrived [title=" + title + ",description=" + description +
                 ",customContentString=" + customContentString + "]");
         try {
             JSONObject data;
