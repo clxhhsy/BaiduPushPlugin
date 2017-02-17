@@ -7,8 +7,9 @@ package com.forbetter.plugins.baidupush;/*
  * 修改单号：
  * 修改内容：
  */
-
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -220,7 +221,7 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
             JSONObject result = new JSONObject();
             result.put("data", data);
             result.put("type", CB_TYPE.onNotificationClicked);
-            if (isAppAlive(context)) {
+            if (isAppExist(context)) {
                 sendPushData(context, result, BaidupushPlugin.NotificationClickCallbackContext);
             } else {
                 startApp(context);
@@ -267,7 +268,7 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
      * 接收推送消息，并返回前端
      */
     private void sendPushData(Context context, JSONObject object, CallbackContext callbackContext) {
-        if (context != null && isAppAlive(context)) {
+        if (context != null && isAppExist(context)) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, object);
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
@@ -280,16 +281,22 @@ public class BaidupushMessageReceiver extends PushMessageReceiver {
      */
     private boolean isAppAlive(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
+        List<RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
         String packageName = context.getPackageName();
-        for (ActivityManager.RunningAppProcessInfo processInfo : processInfos) {
-            if (processInfo.processName.equals(packageName)) {
+        for (RunningAppProcessInfo processInfo : processInfos) {
+            if (processInfo.processName.equals(packageName) && processInfo.importance  == RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
                 LOG.i(LOG_TAG, String.format("the %s is running ,isAppAlive return true", packageName));
                 return true;
             }
         }
         LOG.i(LOG_TAG, String.format("the %s is not running, isAppAlive return false", packageName));
         return false;
+    }
+	
+	private static boolean isAppExist(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);		
+		List<RunningTaskInfo>  tasksInfo = activityManager.getRunningTasks(1);
+		return tasksInfo.get(0).baseActivity.getClassName().contains("MainActivity");
     }
 
     /*

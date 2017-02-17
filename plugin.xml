@@ -86,6 +86,8 @@
             <!-- push结束 -->
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest">
+			<!-- 获取任务信息所需权限 -->
+			<uses-permission android:name="android.permission.GET_TASKS" />
             <!-- Push service 运行需要的权限 -->
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
